@@ -50,6 +50,9 @@ def highlight_Article(art, high):
 
 #maximum number of words in output text
 MAX_LEN = 500
+
+sameKeyword = True # True: for same keyword in all headings, False: for random keyword for each heading 
+
 st_head = ["<h1>", "<h2>", "<h3>"]
 en_head = ["</h1>", "</h2>", "</h3>"]
 try:
@@ -61,19 +64,19 @@ outpt.writerow(["keyword", "GUID", "Description", "Tags", "Article","Article-eng
 
 
 # open text file
-with open('u\\tx.txt') as f0:#open('tx654.txt') as f0:#open('u\\te.txt') as f0:#open('tx654.txt') as f0:
+with open('tx654.txt') as f0:#open('u\\te.txt') as f0:#open('tx654.txt') as f0:
     txt = f0.readlines()
 
 # open title file
-with open('u\\ti.txt') as f1:#open('ttt165.txt') as f1:#open('u\\ti.txt') as f1: #open('ttt165.txt') as f1:
+with open('ttt165.txt') as f1:#open('u\\ti.txt') as f1: #open('ttt165.txt') as f1:
     titles = f1.readlines()
 
 # open keywords file
-with open('u\\k.txt') as f2:# open('kk654.txt') as f2:#open('u\\k.txt') as f2: #open('kk654.txt') as f2:
+with open('kk654.txt') as f2:#open('u\\k.txt') as f2: #open('kk654.txt') as f2:
     keywords = f2.readlines()
 
 # open images file
-with open('u\\i.txt') as f3:# open('im95.txt') as f3:#open('u\\i.txt') as f3: #open('im95.txt') as f3:
+with open('im95.txt') as f3:#open('u\\i.txt') as f3: #open('im95.txt') as f3:
     images = f3.readlines()
 
 for xm, (title,tt) in enumerate (zip(titles,txt)): 
@@ -124,7 +127,10 @@ for xm, (title,tt) in enumerate (zip(titles,txt)):
             if not "<|endoftext|>" in tokenizer.decode(sample_outputs[0], skip_special_tokens = True):
                 break                
         amb = inp + tokenizer.decode(sample_outputs[0], skip_special_tokens = True)
-        amb = amb[0:amb.rindex(".")] + "."
+        try:
+            amb = amb[0:amb.rindex(".")] + "."
+        except:
+            pass
         
         art_eng += inp + amb
         article += highlight_Article(translate(inp + amb),highlight)
